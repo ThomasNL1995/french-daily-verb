@@ -3096,7 +3096,7 @@ function removeAccents(str) {
 }
 
 let todaysVerb = getTodaysVerb();
-todaysVerb = ["Défausser (se)", [2, 3]];
+// todaysVerb = ["Défausser (se)", [2, 3]];
 const todaysVerbDiv = document.getElementById("verb");
 const translationDiv = document.getElementById("translation");
 const dateDiv = document.getElementById("current-date");
