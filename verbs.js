@@ -3032,7 +3032,7 @@ let verbs = [
 let startDate = new Date(1752820821549);
 
 function getDateString(date) {
-  return [date.getFullYear(), date.getMonth(), date.getDay()].join("-");
+  return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("-");
 }
 
 function addDays(date, days) {
@@ -3058,6 +3058,7 @@ function shuffle(array) {
   }
 }
 
+console.log(getDateString(new Date()));
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -3075,19 +3076,35 @@ function calculateDays(currentDate) {
 
 const path = window.location.pathname.split("/").pop();
 
-function getTodaysVerb() {
-  let dateToUse = new Date();
-  if (path.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    dateToUse = new Date(path);
-  }
+let currentDate = path.match(/^\d{4}-\d{2}-\d{2}$/)
+  ? new Date(path)
+  : new Date();
 
-  const todayDifference = calculateDays(dateToUse);
+function getTodaysVerb() {
+  const todayDifference = calculateDays(currentDate);
   console.log(todayDifference);
   return verbs[todayDifference];
 }
 
 let todaysVerb = getTodaysVerb();
-let todaysVerbDiv = document.getElementById("verb");
-let translationDiv = document.getElementById("translation");
+const todaysVerbDiv = document.getElementById("verb");
+const translationDiv = document.getElementById("translation");
+const dateDiv = document.getElementById("current-date");
+const yesterdayBtn = document.getElementById("prev");
+const tomorrowBtn = document.getElementById("next");
+
+dateDiv.innerText = getDateString(currentDate);
+
 todaysVerbDiv.innerText = todaysVerb[0];
 translationDiv.innerText = todaysVerb[1].join(", ");
+
+const nextPath =
+  "https://thomasnl1995.github.io/french-daily-verb/" +
+  getDateString(addDays(currentDate, 1));
+
+const prevPath =
+  "https://thomasnl1995.github.io/french-daily-verb/" +
+  getDateString(addDays(currentDate, -1));
+
+yesterdayBtn.setAttribute("href", prevPath);
+tomorrowBtn.setAttribute("href", nextPath);

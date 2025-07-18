@@ -21,6 +21,22 @@
         #translation {
             margin-bottom: 20px;
         }
+        #nav {
+            display: flex;
+            width: 1080px;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 10px;
+            background: #dddddd;
+            border-radius: 3px;
+            color: black;
+            text-decoration: none;
+        }
+        .btn:hover {
+            cursor: pointer;
+            background-color: #eaeaea;
+        }
     </style>
 </head>
 <body>
@@ -30,6 +46,10 @@
     <h2>Today's verb is:</h2>
     <div id="verb"></div>
     <div id="translation"></div>
+    <div id="nav">
+        <a id="prev" class="btn">Yesterday</a>
+        <a id="next" class="btn">Tomorrow</a>
+    </div>
 </div>
     <script src="verbs.js"></script>
 </body>
