@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily French Verb</title>
+    <style>
+        body, .container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            max-width: 1280px;
+        }
+        #verb {
+            font-size:50px;
+            font-weight: 600;
+        }
+        #translation {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Daily French Verb</h1>
+    <div id="current-date">01-01-2025</div>
+    <h2>Today's verb is:</h2>
+    <div id="verb"></div>
+    <div id="translation"></div>
+</div>
+    <script src="verbs.js"></script>
+</body>
+</html>
