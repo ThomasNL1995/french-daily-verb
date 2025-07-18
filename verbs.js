@@ -3073,14 +3073,15 @@ function calculateDays(currentDate) {
   return daysDifference;
 }
 
-// let mappedVerbs = verbsOrdered.map((verb, i) => {
-//   let date = addDays(startDate, i);
-//   return [getDateString(date), verb];
-// });
+const path = window.location.pathname.split("/").pop();
 
 function getTodaysVerb() {
-  const today = new Date();
-  const todayDifference = calculateDays(today);
+  let dateToUse = new Date();
+  if (path.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    dateToUse = new Date(path);
+  }
+
+  const todayDifference = calculateDays(dateToUse);
   console.log(todayDifference);
   return verbs[todayDifference];
 }
@@ -3090,142 +3091,3 @@ let todaysVerbDiv = document.getElementById("verb");
 let translationDiv = document.getElementById("translation");
 todaysVerbDiv.innerText = todaysVerb[0];
 translationDiv.innerText = todaysVerb[1].join(", ");
-
-document.addEventListener("DOMContentLoaded", () => {
-  const conjugateBtn = document.getElementById("conjugateBtn");
-  const resultsDiv = document.getElementById("results");
-
-  conjugateBtn.addEventListener("click", () => {
-    const verb = todaysVerb[0];
-
-    if (verb === "") {
-      alert("Please enter a verb.");
-      return;
-    }
-
-    // The public API endpoint for verbecc
-    const apiUrl = `/vc/verbecc/conjugate/fr/${verb}`;
-
-    resultsDiv.innerHTML = "Loading...";
-
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        displayConjugations(data);
-      })
-      .catch((error) => {
-        resultsDiv.innerHTML = `Error: ${error.message}`;
-        console.error("There was a problem with the fetch operation:", error);
-      });
-  });
-
-  function displayConjugations(data) {
-    // The 'data' object from the user's example is nested under a "value" key
-    const conjugations = data.value;
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = ""; // Clear previous results
-
-    // const verbInfo = document.createElement("div");
-    // verbInfo.innerHTML = `<h2>${conjugations.verb.infinitive}</h2>`;
-    // resultsDiv.appendChild(verbInfo);
-
-    // Define the logical order for moods and tenses
-    const moodOrder = [
-      "indicatif",
-      "conditionnel",
-      "imperatif",
-      "participe",
-      "infinitif",
-      "subjonctif",
-    ];
-    const tenseOrder = {
-      indicatif: [
-        "présent",
-        "passé-composé",
-        "imparfait",
-        "plus-que-parfait",
-        "passé-simple",
-        "passé-antérieur",
-        "futur-simple",
-        "futur-antérieur",
-      ],
-      subjonctif: ["présent", "passé", "imparfait", "plus-que-parfait"],
-      conditionnel: ["présent", "passé"],
-      imperatif: ["imperatif-présent", "imperatif-passé"],
-      participe: ["participe-présent", "participe-passé"],
-      infinitif: ["infinitif-présent"],
-    };
-
-    // Helper function to create a table for each mood
-    function createMoodTable(mood, tenses) {
-      const moodContainer = document.createElement("div");
-      moodContainer.classList.add("mood-container");
-
-      const moodTitle = document.createElement("h3");
-      moodTitle.textContent = mood.charAt(0).toUpperCase() + mood.slice(1);
-      moodContainer.appendChild(moodTitle);
-
-      const table = document.createElement("table");
-      const thead = document.createElement("thead");
-      const tbody = document.createElement("tbody");
-      const headerRow = document.createElement("tr");
-
-      // Create table headers for the three columns
-      for (let i = 0; i < 3; i++) {
-        const th = document.createElement("th");
-        headerRow.appendChild(th);
-      }
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
-
-      let cells = [];
-      for (const tense of tenseOrder[mood]) {
-        if (tenses[tense]) {
-          const tenseDiv = document.createElement("div");
-          tenseDiv.classList.add("tense-block");
-          const tenseTitle = document.createElement("h4");
-          tenseTitle.textContent = tense;
-          tenseDiv.appendChild(tenseTitle);
-
-          const ul = document.createElement("ul");
-          tenses[tense].forEach((form) => {
-            const li = document.createElement("li");
-            li.textContent = form;
-            ul.appendChild(li);
-          });
-          tenseDiv.appendChild(ul);
-          cells.push(tenseDiv);
-        }
-      }
-
-      // Arrange cells into rows of 3
-      for (let i = 0; i < cells.length; i += 3) {
-        const row = document.createElement("tr");
-        for (let j = 0; j < 3; j++) {
-          const td = document.createElement("td");
-          if (cells[i + j]) {
-            td.appendChild(cells[i + j]);
-          }
-          row.appendChild(td);
-        }
-        tbody.appendChild(row);
-      }
-
-      table.appendChild(tbody);
-      moodContainer.appendChild(table);
-      resultsDiv.appendChild(moodContainer);
-    }
-
-    // Create tables for each mood in the specified order
-    moodOrder.forEach((mood) => {
-      if (conjugations.moods[mood]) {
-        createMoodTable(mood, conjugations.moods[mood]);
-      }
-    });
-  }
-});
