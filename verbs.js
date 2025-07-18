@@ -3087,13 +3087,23 @@ function getTodaysVerb() {
   return verbs[todayDifference];
 }
 
+function removeAccents(str) {
+  return str
+    .split(" ")[0]
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 let todaysVerb = getTodaysVerb();
+todaysVerb = ["Défausser (se)", [2, 3]];
 const todaysVerbDiv = document.getElementById("verb");
 const translationDiv = document.getElementById("translation");
 const dateDiv = document.getElementById("current-date");
 const yesterdayBtn = document.getElementById("prev");
 const tomorrowBtn = document.getElementById("next");
-
+const lawlessLink = document.getElementById("to-lawless-link");
+const conjugLink = document.getElementById("to-conjug-link");
 dateDiv.innerText = getDateString(currentDate, false);
 
 todaysVerbDiv.innerText = todaysVerb[0];
@@ -3114,3 +3124,16 @@ if (calculateDays(currentDate) < 0) {
   yesterdayBtn.setAttribute("href", "");
   yesterdayBtn.setAttribute("disabled", true);
 }
+
+let lawlessFrenchPath =
+  "https://www.lawlessfrench.com/verb-conjugations/" +
+  removeAccents(todaysVerb[0]);
+lawlessLink.setAttribute("href", lawlessFrenchPath);
+
+let pronominal = todaysVerb[0].includes("(se)") ? "_pronominal" : "";
+let conjugPath =
+  "https://leconjugueur.lefigaro.fr/french/verb/" +
+  removeAccents(todaysVerb[0]) +
+  pronominal;
+
+conjugLink.setAttribute("href", conjugPath);
