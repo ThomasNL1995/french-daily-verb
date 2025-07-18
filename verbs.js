@@ -3110,4 +3110,7 @@ const prevPath =
 yesterdayBtn.setAttribute("href", prevPath);
 tomorrowBtn.setAttribute("href", nextPath);
 
-console.log(nextPath);
+if (calculateDays(currentDate) < 0) {
+  yesterdayBtn.setAttribute("href", "");
+  yesterdayBtn.setAttribute("disabled", true);
+}

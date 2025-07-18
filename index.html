@@ -28,14 +28,18 @@
         }
         .btn {
             padding: 10px;
-            background: #dddddd;
+            background: #c6c6c6;
             border-radius: 3px;
             color: black;
             text-decoration: none;
         }
         .btn:hover {
             cursor: pointer;
-            background-color: #eaeaea;
+            background-color: #dfdfdf;
+        }
+        .btn[disabled=true] {
+            cursor: initial;
+            background: #f4f4f4;
         }
     </style>
 </head>
@@ -47,8 +51,8 @@
     <div id="verb"></div>
     <div id="translation"></div>
     <div id="nav">
-        <a id="prev" class="btn">Yesterday</a>
-        <a id="next" class="btn">Tomorrow</a>
+        <a type="button" id="prev" class="btn">Yesterday</a>
+        <a type="button" id="next" class="btn">Tomorrow</a>
     </div>
 </div>
     <script src="verbs.js"></script>
