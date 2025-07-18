@@ -3031,8 +3031,11 @@ let verbs = [
 
 let startDate = new Date(1752820821549);
 
-function getDateString(date) {
-  return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("-");
+function getDateString(date, reverse = true) {
+  let result = reverse
+    ? [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    : [date.getDate(), date.getMonth() + 1, date.getFullYear()];
+  return result.join("-");
 }
 
 function addDays(date, days) {
@@ -3058,7 +3061,6 @@ function shuffle(array) {
   }
 }
 
-console.log(getDateString(new Date()));
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -3076,13 +3078,12 @@ function calculateDays(currentDate) {
 
 const path = window.location.pathname.split("/").pop();
 
-let currentDate = path.match(/^\d{4}-\d{2}-\d{2}$/)
+let currentDate = path.match(/^\d{4}-\d{1,2}-\d{1,2}$/)
   ? new Date(path)
   : new Date();
 
 function getTodaysVerb() {
   const todayDifference = calculateDays(currentDate);
-  console.log(todayDifference);
   return verbs[todayDifference];
 }
 
@@ -3093,7 +3094,7 @@ const dateDiv = document.getElementById("current-date");
 const yesterdayBtn = document.getElementById("prev");
 const tomorrowBtn = document.getElementById("next");
 
-dateDiv.innerText = getDateString(currentDate);
+dateDiv.innerText = getDateString(currentDate, false);
 
 todaysVerbDiv.innerText = todaysVerb[0];
 translationDiv.innerText = todaysVerb[1].join(", ");
@@ -3108,3 +3109,5 @@ const prevPath =
 
 yesterdayBtn.setAttribute("href", prevPath);
 tomorrowBtn.setAttribute("href", nextPath);
+
+console.log(nextPath);
