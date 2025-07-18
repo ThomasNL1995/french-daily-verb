@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily French Verb</title>
+    <style>
+        body, .container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            max-width: 1280px;
+        }
+        #verb {
+            font-size:50px;
+            font-weight: 600;
+        }
+        #translation {
+            margin-bottom: 20px;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        #results h3 {
+            text-align: center;
+        }
+        .mood-container {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tense-block h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+
+        .tense-block ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Daily French Verb</h1>
+    <h2>Today's verb is:</h2>
+    <div id="verb"></div>
+    <div id="translation"></div>
+    
+    <div>
+        <button id="conjugateBtn">View conjugations</button>
+    </div>
+    <div id="results"></div>
+</div>
+    <script src="verbs.js"></script>
+</body>
+</html>
